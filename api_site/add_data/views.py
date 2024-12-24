@@ -6,10 +6,13 @@ from .models import User
 from .serializers import UserSerializer
 
 
+
+## Show All Users List
 class showUserLists (generics.ListAPIView ):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+## Create New User
 class createUserList (generics.ListCreateAPIView ):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -17,11 +20,13 @@ class createUserList (generics.ListCreateAPIView ):
         User.objects.all().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+## Update User Details
 class updateUserList(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "pk"
-    
+
+## Delete User
 class deleteUserList(generics.RetrieveDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -31,18 +36,3 @@ class deleteUserList(generics.RetrieveDestroyAPIView):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response({"message": "User deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
-
-
-# @api_view(['GET'])
-# def get_users(request):
-#     users = User.objects.all()
-#     serializer = UserSerializer(users, many = True)
-#     return Response(serializer.data)
-
-# @api_view(['POST'])
-# def create_users(request):
-#     serializer = UserSerializer(data= request.data)
-#     if UserSerializer.is_valid:
-#         serializer.save()
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
